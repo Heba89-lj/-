@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8">
+  <title>Google Drive QR App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#007bff">
+
+  <style>
+    :root {
+      --primary: #007bff;
+      --secondary: #0056b3;
+      --bg: linear-gradient(135deg, #e3f2fd, #ffffff);
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: "Cairo", "Segoe UI", sans-serif;
+      direction: rtl;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #333;
+    }
+
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 20px 10px;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    main {
+      padding: 30px 15px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .section {
+      background: #fff;
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: var(--shadow);
+      transition: 0.3s;
+    }
+
+    .section:hover {
+      transform: translateY(-3px);
+    }
+
+    h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 25px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    #qrcode {
+      margin: 15px auto;
+      display: inline-block;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    /* ✅ توسيط الكاميرا في النص */
+    #cameraContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+    }
+
+    video {
+      width: 100%;
+      max-width: 350px;
+      border-radius: 15px;
+      margin: 15px auto;
+      box-shadow: var(--shadow);
+      display: block;
+    }
+
+    #msg {
+      margin-top: 10px;
+      color: #555;
+      font-size: 15px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    #installBtn {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  z-index: 9999; /* تأكد إن الزر فوق أي عناصر تانية */
+  position: relative;
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>📁 تطبيق Google Drive عبر QR</h1>
+  </header>
+
+  <main>
+    <div class="section">
+      <h3>🎯 امسح الكود لفتح الملف</h3>
+      <div id="qrcode"></div>
+      <p>أو <a href="main.html" target="_blank">اضغطي هنا لفتح الملف مباشرة</a></p>
+    </div>
+
+    <div class="section" id="userSection">
+      <h3>👩‍🎓 امسحي كود QR بالكاميرا</h3>
+      <div id="cameraContainer">
+        <video id="camera" playsinline></video>
+        <button id="startScan">تشغيل الكاميرا</button>
+      </div>
+      <div id="msg">اضغطي على الزر لتشغيل الكاميرا</div>
+    </div>
+    <div class="section">
+  <h3>⬇️ تنزيل التطبيق</h3>
+  <button id="installBtn" style="display:none;">تثبيت التطبيق</button>
+</div>
+
+  </main>
+
+
+
+  <!-- مكتبات QR -->
+  <script src="https://unpkg.com/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/qr-scanner@1.4.2/qr-scanner.umd.min.js"></script>
+
+  <script>
+    const link = "main.html";
+    new QRCode(document.getElementById("qrcode"), { text: link, width: 200, height: 200 });
+
+    const video = document.getElementById("camera");
+    const startBtn = document.getElementById("startScan");
+    const msg = document.getElementById("msg");
+    let qrScanner = null;
+
+    function onDecode(result) {
+      msg.textContent = "✅ تم قراءة الكود... جاري فتح الملف";
+      if (qrScanner) qrScanner.stop();
+      window.open(result, "_blank");
+    }
+
+    startBtn.addEventListener("click", async () => {
+      try {
+        qrScanner = new QrScanner(video, res => onDecode(res));
+        await qrScanner.start();
+        msg.textContent = "وجهي الكاميرا نحو كود الـ QR...";
+        startBtn.style.display = "none";
+      } catch (err) {
+        msg.textContent = "⚠️ حدث خطأ: " + err.message;
+      }
+    });
+
+    // PWA Service Worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("✅ Service Worker مسجل"))
+        .catch(err => console.log("❌ خطأ في SW:", err));
+    }
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+// حدث قبل تثبيت التطبيق
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();       // منع المتصفح من إظهار نافذة التثبيت التلقائية
+  deferredPrompt = e;
+  installBtn.style.display = 'inline-block'; // أظهر زر التنزيل
+});
+
+// عند الضغط على زر التثبيت
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt(); // عرض نافذة تثبيت التطبيق
+  const choiceResult = await deferredPrompt.userChoice;
+  if (choiceResult.outcome === 'accepted') {
+    console.log('✅ المستخدم ثبت التطبيق');
+  } else {
+    console.log('❌ المستخدم رفض التثبيت');
+  }
+  deferredPrompt = null;
+  installBtn.style.display = 'none'; // أخفي الزر بعد الاختيار
+});
+
+
+  </script>
+</body>
+</html>
