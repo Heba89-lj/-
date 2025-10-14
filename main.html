@@ -2,144 +2,178 @@
 <html lang="ar">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نيابة الشئون الاقتصادية وغسل الأموال</title>
-    <style>
-        /* خلفية الصفحة */
-        body {
-            margin: 40px;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-image: url(472.png);
-            /* background-size: cover; */
-            /* تغطي الصفحة كلها */
-            /* background-position: center; */
-            /* تمركز الصورة */
-            background-repeat: no-repeat;
-            /* تمنع التكرار */
-            /* height: 80vh;
-            /* ارتفاع الصفحة كامل */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نيابة الشئون الاقتصادية وغسل الأموال</title>
+  <style>
+    /* 🌈 إعدادات عامة */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Cairo", Arial, sans-serif;
+      background-image: url("472.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(90, 94, 95, 0.6);
+      background-blend-mode: overlay;
+      color: #fff;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-            text-align: center;
-            color: #fff;
-            /* لون النص فوق الخلفية */
-            /* الصورة والخلفية مع دمج اللون */
-            /* background-image: url('/qr-pwa/470233161_1120451776110344_5625682342405464804_n.jpg'); */
-            background-size: cover;
-            background-position: center;
+    /* 🔹 الهيدر */
+    header {
+      padding: 20px;
+      text-align: right;
+      width: 100%;
+    }
 
-            /* اللون فوق الصورة */
-            background-color: rgba(90, 94, 95, 0.5);
-            /* أسود شفاف */
-            background-blend-mode: overlay;
-            /* دمج اللون بالصورة */
-        }
+    header h1 {
+      margin: 0;
+      font-style: italic;
+      font-family: "Times New Roman", serif;
+    }
 
-        header {
-            color:#fff;
-            font-style: italic;
-            width: 40%;
-            margin-left:60%;
-            margin-top: 0;
-            display: flex;
-            justify-content: flex-end;
-            /* يحط القائمة على يمين الهيدر */
-            align-items: center;
-            /* يحط العناصر عموديًا في النص */
-            height: 200px;
-            /* ارتفاع الهيدر */
-            padding: 0 20px;
-            /* background-color: red; */
-font-family: 'Times New Roman', Times, serif   ;
-font-style: italic;
-}
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-        .nav-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+    .nav-list li {
+      margin: 5px 0;
+      font-size: 1.2rem;
+    }
 
-        .nav-list li {
-            margin: 5px 0;
-            /* مسافة بين السطور */
-            text-align: right;
-            /* يحط النصوص على اليمين داخل كل <li> */
-        }
+    /* 🔸 المحتوى الرئيسي */
+    main {
+      width: 90%;
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
 
-        main {
-            max-width: 1000px;
-            margin: 75px auto;
-            padding: 25px;
-            display: flex;
-            justify-content: space-between;
-/* background-color: aqua; */
-        }
+    .section {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      flex: 1 1 250px;
+      text-align: center;
+    }
 
-        .section {
-            /* background-color: #fff; */
-            border-radius: 15px;
-            padding: 5px 10px;
-            /* margin-bottom: 20px; */
-            box-shadow: 0 4px 15px #9fa7b1;
-            /* background-color: red; */
-        }
+    .section:hover {
+      transform: scale(1.05);
+      background-color: rgba(255, 255, 255, 0.2);
+    }
 
-        .section h2 {
-            color: #9fa7b1;
-        }
-a{
-    text-decoration: none;
-    color: red;
-}
-.section:hover{
-    font-size: 25px;
-}
+    .section h2 {
+      color: #fff;
+      font-size: 1.4rem;
+      margin: 0;
+    }
 
-        footer {
-            text-align: center;
-            font-weight: 20px;
-            color: #fff;
-            font-size: 20px;
-            margin-top: 130px;
-            padding: 0; */
-        }
-    </style>
+    a {
+      text-decoration: none;
+      color: #ffb3b3;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    /* 🔻 الفوتر */
+    footer {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      font-size: 1rem;
+    }
+
+    /* 📱 استجابة الشاشات الصغيرة */
+    @media (max-width: 768px) {
+      header {
+        text-align: center;
+      }
+
+      .nav-list li {
+        font-size: 1rem;
+      }
+
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .section {
+        width: 90%;
+        font-size: 1.1rem;
+      }
+
+      footer {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* 📱 أصغر من 480px */
+    @media (max-width: 480px) {
+      body {
+        margin: 0;
+      }
+
+      .nav-list li {
+        font-size: 0.95rem;
+      }
+
+      .section h2 {
+        font-size: 1.1rem;
+      }
+
+      .section {
+        padding: 15px;
+      }
+
+      footer {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <h1>
-            <ul class="nav-list">
-                <li>النيابة العامة</li>
-                <li>نيابة الشئون الاقتصادية وغسل الاموال</li>
-                <li>بالاسكندرية</li>
-                <li>وحدة الفحص المتنوع</li>
-            </ul>
-        </h1>
-    </header>
+  <header>
+    <h1>
+      <ul class="nav-list">
+        <li>النيابة العامة</li>
+        <li>نيابة الشئون الاقتصادية وغسل الأموال</li>
+        <li>بالإسكندرية</li>
+        <li>وحدة الفحص المتنوع</li>
+      </ul>
+    </h1>
+  </header>
 
+  <main>
+    <div class="section">
+      <h2><a href="https://drive.google.com/file/d/1i1zU5k5XAoRsL9a1qcSro0uIkMm1mv0s/view" target="_blank">📄 الأوراق المطلوبة</a></h2>
+    </div>
 
+    <div class="section">
+      <h2><a href="https://drive.google.com/file/d/1KxYH031IyxJrIG_Fh5HTMd_SbVLARTLQ/view" target="_blank">📋 الاستعلامات</a></h2>
+    </div>
+  </main>
 
-    <main>
-        <div class="section">
-            <h2><a href="https://drive.google.com/file/d/1i1zU5k5XAoRsL9a1qcSro0uIkMm1mv0s/view">الأوراق المطلوبة</a></h2>
-        </div>
-
-        <div class="section">
-            <h2><a href="https://drive.google.com/file/d/1KxYH031IyxJrIG_Fh5HTMd_SbVLARTLQ/view">الاستعلامات</a></h2>
-
-        </div>
-    </main>
-
-    <footer>
-        <p>© 2025 نيابة الشئون الاقتصادية وغسل الأموال - الاسكندرية</p>
-    </footer>
+  <footer>
+    <p>© 2025 نيابة الشئون الاقتصادية وغسل الأموال - الإسكندرية</p>
+  </footer>
 </body>
-
-</html>
-</body>
-
 
 </html>
