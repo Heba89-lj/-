@@ -185,64 +185,67 @@
   <script src="https://unpkg.com/qr-scanner@1.4.2/qr-scanner.umd.min.js"></script>
 
   <script>
-    const link = "https://heba89-lj.github.io/qr-pwa/main.html";
-    new QRCode(document.getElementById("qrcode"), { text: link, width: 200, height: 200 });
+  // ✨ استخدمي لينك GitHub Pages الكامل
+  const link = "https://heba89-lj.github.io/qr-pwa/main.html";
 
-    const video = document.getElementById("camera");
-    const startBtn = document.getElementById("startScan");
-    const msg = document.getElementById("msg");
-    let qrScanner = null;
+  // توليد الكود
+  new QRCode(document.getElementById("qrcode"), { text: link, width: 200, height: 200 });
 
-    function onDecode(result) {
-      msg.textContent = "✅ تم قراءة الكود... جاري فتح الملف";
-      if (qrScanner) qrScanner.stop();
-      window.open(result, "_blank");
-    }
+  const video = document.getElementById("camera");
+  const startBtn = document.getElementById("startScan");
+  const msg = document.getElementById("msg");
+  let qrScanner = null;
 
-    startBtn.addEventListener("click", async () => {
-      try {
-        qrScanner = new QrScanner(video, res => onDecode(res));
-        await qrScanner.start();
-        msg.textContent = "وجهي الكاميرا نحو كود الـ QR...";
-        startBtn.style.display = "none";
-      } catch (err) {
-        msg.textContent = "⚠️ حدث خطأ: " + err.message;
-      }
-    });
-
-    // PWA Service Worker
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("✅ Service Worker مسجل"))
-        .catch(err => console.log("❌ خطأ في SW:", err));
-    }
-let deferredPrompt;
-const installBtn = document.getElementById('installBtn');
-
-// حدث قبل تثبيت التطبيق
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();       // منع المتصفح من إظهار نافذة التثبيت التلقائية
-  deferredPrompt = e;
-  installBtn.style.display = 'inline-block'; // أظهر زر التنزيل
-});
-
-// عند الضغط على زر التثبيت
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt(); // عرض نافذة تثبيت التطبيق
-  const choiceResult = await deferredPrompt.userChoice;
-  if (choiceResult.outcome === 'accepted') {
-    console.log('✅ المستخدم ثبت التطبيق');
-  } else {
-    console.log('❌ المستخدم رفض التثبيت');
+  function onDecode(result) {
+    msg.textContent = "✅ تم قراءة الكود... جاري فتح الملف";
+    if (qrScanner) qrScanner.stop();
+    window.open(result, "_blank"); // يفتح اللينك فعليًا
   }
-  deferredPrompt = null;
-  installBtn.style.display = 'none'; // أخفي الزر بعد الاختيار
-});
 
+  startBtn.addEventListener("click", async () => {
+    try {
+      qrScanner = new QrScanner(video, res => onDecode(res));
+      await qrScanner.start();
+      msg.textContent = "وجهي الكاميرا نحو كود الـ QR...";
+      startBtn.style.display = "none";
+    } catch (err) {
+      msg.textContent = "⚠️ حدث خطأ: " + err.message;
+    }
+  });
 
-  </script>
+  // تسجيل Service Worker
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("✅ Service Worker مسجل"))
+      .catch(err => console.log("❌ خطأ في SW:", err));
+  }
+
+  // أزرار التثبيت
+  let deferredPrompt;
+  const installBtn = document.getElementById('installBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'inline-block';
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const choiceResult = await deferredPrompt.userChoice;
+    if (choiceResult.outcome === 'accepted') {
+      console.log('✅ المستخدم ثبت التطبيق');
+    } else {
+      console.log('❌ المستخدم رفض التثبيت');
+    }
+    deferredPrompt = null;
+    installBtn.style.display = 'none';
+  });
+</script>
+
 </body>
 </html>
+
 
 
